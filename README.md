@@ -23,6 +23,8 @@ The wizard walks you through it:
 | Build | Runs only your ticked systems with a live log. Cancel stops it; running it again is safe |
 | Finished | Open LaunchBox |
 
+**Got a Steam Deck?** [Shu's Steam Deck CRT Build](https://github.com/shu2600/steam-deck-crt-build) sends this library to EmuDeck with the light version of every look.
+
 Prefer the command line? [docs/GUIDE.md](docs/GUIDE.md) has every step.
 
 ## What it does
