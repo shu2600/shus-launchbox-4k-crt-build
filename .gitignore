@@ -1,0 +1,15 @@
+# your own paths and favourites
+tools/lb_settings.json
+# logs, backups and renders the tools write
+tools/work/
+work/
+*.bak*
+__pycache__/
+*.pyc
+# never commit games, BIOS or disc images
+*.zip
+*.7z
+*.iso
+*.chd
+*.cdi
+*.bin

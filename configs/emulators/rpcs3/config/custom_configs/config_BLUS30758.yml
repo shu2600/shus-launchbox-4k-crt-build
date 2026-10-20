@@ -1,0 +1,12 @@
+Video:
+  Renderer: Vulkan
+  Resolution Scale: 300
+  Anisotropic Filter Override: 16
+  VSync: true
+  Shader Mode: Async Shader Recompiler
+  Vblank Rate: 120
+Miscellaneous:
+  Start games in fullscreen mode: true
+  Exit RPCS3 when process finishes: true
+  Show shader compilation hint: false
+  Show PPU compilation hint: false

@@ -1,0 +1,16 @@
+{
+  "_readme": "Copy this file to lb_settings.json and change the paths to your own. Forward slashes work on Windows too.",
+  "emulation_root": "D:/Emulation",
+  "launchbox": "D:/Emulation/LaunchBox",
+  "retroarch": "D:/Emulation/LaunchBox/Emulators/RetroArch",
+  "mame": "D:/Emulation/Mame",
+  "work_dir": "D:/Emulation/_build",
+  "downloads": "%USERPROFILE%/Downloads",
+  "seven_zip": "C:/Program Files/7-Zip/7z.exe",
+  "steam_deck": {},
+  "rom_folders": {},
+  "emulator_paths": {},
+  "favourites": {},
+  "_rom_folders_readme": "Only for systems whose games are not in the default folder. The setup wizard fills this in when you press Change next to a system.",
+  "_favourites_readme": "Optional: LaunchBox platform name -> list of game titles to mark as favourites, e.g. \"Arcade\": [\"Pac-Man\"]."
+}
