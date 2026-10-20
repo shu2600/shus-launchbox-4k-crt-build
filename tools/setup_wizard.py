@@ -719,6 +719,25 @@ class Wizard(tk.Tk):
         except Exception:
             return None
 
+    def anima_pick(self, rk, shots):
+        """Shot number of the look the build installs for this system: the candidate whose preset is the one in our
+        shipped configs (our super-xBR combos count as their plain TV). Falls back to bezel_review's PICKS list."""
+        import re
+        br = self.bezel()
+        core = br.SYSTEMS.get(rk, (None,) * 6)[5]
+        f = os.path.join(CONFIGS, "retroarch", core or "", f"{core}.slangp")
+        if core and os.path.exists(f):
+            ref = next((l.split('"')[1] for l in open(f, encoding="utf-8") if l.startswith("#reference")), "")
+            want = re.sub(r"-\[S\d+\]", "", os.path.basename(ref)).lower()
+            folder = os.path.basename(os.path.dirname(ref)).lower()   # e.g. TheNamec's NMC_SHARP_SMOOTH-SCALEFX vs MBZ_SHARP_ADV
+            hits = [s for s in shots if os.path.basename(s["preset"]).lower() == want]
+            if len(hits) > 1:
+                hits = [s for s in hits if folder in s["preset"].lower().replace("\\", "/")] or hits
+            if hits:
+                return hits[0]["n"]
+        pk = br.PICKS.get(rk, "")
+        return next((s["n"] for s in shots if pk and pk in s["label"]), None)
+
     def look_choice(self, rk, log):
         """(shot number, label, is_user_pick) for a system: the user's pick if made, else Anima's pick."""
         br = self.bezel()
@@ -727,9 +746,9 @@ class Wizard(tk.Tk):
         for s in shots:
             if s["n"] == mine:
                 return s["n"], br.nice(s["label"]), True
-        pick = br.PICKS.get(rk, "")
+        n = self.anima_pick(rk, shots)
         for s in shots:
-            if pick and pick in s["label"]:
+            if s["n"] == n:
                 return s["n"], br.nice(s["label"]), False
         return None, "its standard look", False
 
@@ -804,8 +823,7 @@ class Wizard(tk.Tk):
             json.dump(self.s, open(SETTINGS, "w", encoding="utf-8"), indent=2)
             top.destroy(); self.fill_looks()
         shots = [s for s in log.get("shots", []) if s.get("ok")]
-        pk = br.PICKS.get(rk, "")
-        anima_n = next((s["n"] for s in shots if pk and pk in s["label"]), None)   # first match only (TV6, not TV6_Alt too)
+        anima_n = self.anima_pick(rk, shots)
         for i, s in enumerate(shots):
             img = os.path.join(self.review_dir(), rk, f"{s['n']:02d}.jpg")
             if not os.path.exists(img):
