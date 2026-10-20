@@ -236,6 +236,65 @@ def guess_folders(root, platforms, depth=3):
     return out
 
 
+TV_LABELS = {"TV1": "Late-80s Toshiba, Grey", "TV2": "Late-80s Toshiba, Dark", "TV3": "Early-90s Grey TV",
+             "TV4": "90s Samsung, Silver", "TV5": "80s RCA Wood Cabinet, US", "TV6": "70s HMV Wood Cabinet, UK",
+             "TV6 alt": "70s HMV, Other Room"}
+STYLE_LABELS = {"sony megatron": "Sony Megatron, Needs HDR", "composite tv": "Composite TV", "easymode": "Easymode, Crisp",
+                "glass frame": "Glass Frame", "smooth": "Smoothed", "super-xbr": "Super-xBR Smoothing"}
+
+
+def shu_case(s):
+    """Every word capitalised; words with capitals or digits (TV, 3DS, 1084S, xBR) are left as they are."""
+    return " ".join(w if any(c.isupper() or c.isdigit() for c in w) else w[:1].upper() + w[1:] for w in s.split(" "))
+
+
+def look_label(raw):
+    """One consistent, readable name for every look in the gallery, whatever the preset file is called."""
+    import re
+    s = raw.strip()
+    if s.startswith(("CURRENT", "APPLIED")):
+        return "Your Current Look"
+    if s.startswith("Plain CRT frame"):
+        return "Plain CRT"
+    m = re.match(r"Plain frame, style: (.*)", s)
+    if m:
+        st = m.group(1).lower()
+        return "Plain CRT: " + next((v for k, v in STYLE_LABELS.items() if st.startswith(k)), shu_case(m.group(1)))
+    m = re.match(r"(TV\d(?: alt)?): (.*)", s)
+    if m:
+        rest = m.group(2)
+        extras = [p for p in re.findall(r"\(([^)]*)\)", rest) if p.lower() not in ("uk", "us", "grey", "dark", "combo")]
+        if " - " in rest:
+            extras.append(rest.split(" - ", 1)[1])
+        if "super-xBR" in rest:
+            extras.append("Super-xBR Combo")
+        return f"{m.group(1).replace(' alt', ' Alt')}: {TV_LABELS.get(m.group(1), shu_case(rest))}" + "".join(f", {shu_case(x)}" for x in extras)
+    m = re.match(r"(Commodore 1084S?|Philips TV)(?: monitor)?,? (.*)", s)
+    if m:
+        kind = "ScaleFX" if "ScaleFX" in s else "Smoothed" if "smooth" in s else "Sharp"
+        return f"{m.group(1)}{' Monitor' if 'Commodore' in m.group(1) else ''}, {kind}"
+    if ":" in s:
+        system, look = [x.strip() for x in s.split(":", 1)]
+        system = system.replace(" DREZ", "")
+        if look.startswith(("Bezel", "Monitor")):
+            return f"{system}: {look.split(',')[0]}"
+        tokens = re.findall(r"\[([^\]]+)\]", look)
+        base = look.split("-[")[0].replace("_", " ").split()
+        sys_words = system.lower().split(); sys_flat = system.lower().replace(" ", "")
+        initials = "".join(x[0] for x in sys_words)
+        variant = [w for w in base if w.lower() not in sys_words and w.lower() not in sys_flat
+                   and w.lower() != initials]   # drop the system's own name or initials (NGPC)
+        kind = "Handheld, LCD Screen" if "LCD-GRID" in tokens else "Mono Monitor" if "Monochrome_Monitor" in tokens else \
+               "Monitor" if "Monitor" in tokens else "Console Frame"
+        parts = [kind] + ([" ".join(variant)] if variant else [])
+        if "DREZ" in tokens:
+            parts.append("Hi-Res" + "".join(f" {t}" for t in tokens if re.match(r"\d+[pX]$", t)))
+        if "flipped" in look:
+            parts.append("Flipped")
+        return f"{system}: " + ", ".join(shu_case(p) for p in parts)
+    return shu_case(s)
+
+
 LEVELS = {
     "Lite": "Library + LaunchBox's own artwork + the CRT/TV looks.",
     "Standard": "Lite, plus extra covers and screenshots from libretro and ArcadeDB, 3D boxes, playlists, menu icons.",
@@ -745,11 +804,11 @@ class Wizard(tk.Tk):
         mine = self.s.get("looks", {}).get(rk)
         for s in shots:
             if s["n"] == mine:
-                return s["n"], br.nice(s["label"]), True
+                return s["n"], look_label(br.nice(s["label"])), True
         n = self.anima_pick(rk, shots)
         for s in shots:
             if s["n"] == n:
-                return s["n"], br.nice(s["label"]), False
+                return s["n"], look_label(br.nice(s["label"])), False
         return None, "its standard look", False
 
     def bezel(self):
@@ -791,13 +850,13 @@ class Wizard(tk.Tk):
             log = self.review_log(rk)
             ttk.Label(inner, text=name, font=("Segoe UI Semibold", 11)).grid(row=r, column=0, sticky="w", pady=6, padx=(0, 18))
             if not log:
-                ttk.Label(inner, text="Anima's pick (render to see and change it)", style="Muted.TLabel").grid(row=r, column=2, sticky="w")
+                ttk.Label(inner, text="Anima's Pick (Render To See And Change It)", style="Muted.TLabel").grid(row=r, column=2, sticky="w")
                 continue
             n, label, mine = self.look_choice(rk, log)
             img = os.path.join(self.review_dir(), rk, f"{n:02d}.jpg") if n else ""
             if img and os.path.exists(img):
                 tk.Label(inner, image=self.thumb(img, 150), bg=BG, bd=0).grid(row=r, column=1, padx=(0, 14), pady=4)
-            ttk.Label(inner, text=("Your pick: " if mine else "Anima's pick: ") + label,
+            ttk.Label(inner, text=("Your Pick: " if mine else "Anima's Pick: ") + label,
                       style="TLabel" if mine else "Muted.TLabel").grid(row=r, column=2, sticky="w")
             ttk.Button(inner, text="Choose", command=lambda k=k, rk=rk: self.choose_look(k, rk)).grid(row=r, column=3, padx=(18, 0))
 
@@ -831,7 +890,7 @@ class Wizard(tk.Tk):
             cell = tk.Frame(inner, bg=PANEL if s["n"] == cur else BG, padx=6, pady=6, cursor="hand2")
             cell.grid(row=i // 3, column=i % 3, padx=6, pady=6, sticky="n")
             pic = tk.Label(cell, image=self.thumb(img, 360), bg=cell["bg"], bd=0); pic.pack()
-            tag = ("ANIMA'S PICK  " if s["n"] == anima_n else "") + br.nice(s["label"])
+            tag = ("Anima's Pick  ·  " if s["n"] == anima_n else "") + look_label(br.nice(s["label"]))
             cap = tk.Label(cell, text=tag, bg=cell["bg"], fg=ACCENT if s["n"] == cur else FG, font=("Segoe UI", 10),
                            wraplength=int(360 * self.ui), justify="left"); cap.pack(anchor="w", pady=(4, 0))
             for wdg in (cell, pic, cap):
