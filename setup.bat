@@ -1,5 +1,5 @@
 @echo off
-rem LaunchBox 4K CRT Build - opens the setup wizard. Installs Python first if this PC doesn't have it.
+rem Shu's LaunchBox 4K CRT Build - opens the setup wizard. Installs Python first if this PC doesn't have it.
 cd /d "%~dp0"
 set "PYL=%LOCALAPPDATA%\Programs\Python\Launcher"
 

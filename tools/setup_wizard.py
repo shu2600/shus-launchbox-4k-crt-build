@@ -1,4 +1,4 @@
-"""LaunchBox 4K CRT Build - setup wizard.
+"""Shu's LaunchBox 4K CRT Build - setup wizard.
 A guided window: what you need (with links to the official download pages), where your folders are,
 which systems and how much detail, then it runs the build and shows a live log.
 Nothing here downloads games, BIOS or firmware. Run with setup.bat, or: py tools/setup_wizard.py"""
@@ -16,7 +16,8 @@ ASSETS = next((d for d in (os.path.join(os.path.dirname(HERE), "assets"),
                            os.path.join(os.path.dirname(HERE), "release", "repo_docs", "assets")) if os.path.isdir(d)),
               os.path.join(os.path.dirname(HERE), "assets"))
 
-TITLE = "LaunchBox 4K CRT Build - Setup"
+NAME = "Shu's LaunchBox 4K CRT Build"
+TITLE = NAME + " - Setup"
 BG, PANEL, FG, MUTED, ACCENT, OK, BAD = "#14161a", "#1d2026", "#e9e6df", "#9a9a94", "#d9a441", "#7fbf6a", "#d0675b"
 
 
@@ -489,8 +490,9 @@ class Wizard(tk.Tk):
         k = self.ui
         f = font("segoeuib.ttf", int(54 * k))
         x, y = int(36 * k), height - int(78 * k)
-        d.text((x, y), "LaunchBox ", font=f, fill=(233, 230, 223))
-        d.text((x + d.textlength("LaunchBox ", font=f), y), "4K CRT Build", font=f, fill=(217, 164, 65))
+        first, gold = NAME[:NAME.index("4K")], NAME[NAME.index("4K"):]
+        d.text((x, y), first, font=f, fill=(233, 230, 223))
+        d.text((x + d.textlength(first, font=f), y), gold, font=f, fill=(217, 164, 65))
         self.imgs["banner"] = ImageTk.PhotoImage(im)
         return self.imgs["banner"], credit
 
@@ -500,7 +502,7 @@ class Wizard(tk.Tk):
         if pic:
             tk.Label(self.body, image=pic, bg=BG, bd=0).pack(anchor="w")
         else:
-            ttk.Label(self.body, text="LaunchBox 4K CRT Build", style="H.TLabel").pack(anchor="w")
+            ttk.Label(self.body, text="Shu's LaunchBox 4K CRT Build", style="H.TLabel").pack(anchor="w")
         under = tk.Frame(self.body, bg=BG); under.pack(fill="x", padx=int(36 * k))
         tk.Label(under, text="Builds your LaunchBox library from your own games, with each system shown on a period TV or monitor.",
                  bg=BG, fg="#c9c4b8", font=("Segoe UI", 13), wraplength=int(980 * k), justify="left").pack(anchor="w", pady=(2, 16))

@@ -1,4 +1,4 @@
-# LaunchBox 4K CRT Build
+# Shu's LaunchBox 4K CRT Build
 
 ![The same Atari 2600 frame, raw and on a 1970s HMV TV](assets/before_after.jpg)
 
