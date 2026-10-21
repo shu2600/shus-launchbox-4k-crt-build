@@ -69,4 +69,4 @@ Full text: [DISCLAIMER.md](DISCLAIMER.md). Credits: [CREDITS.md](CREDITS.md). Co
 
 Built by Shu and Anima. Everything for a Reason.
 
-Like it? [Support Me On Patreon](https://www.patreon.com/cw/Shu2600)
+Like it? [Support Me On Patreon](https://www.patreon.com/cw/Shu2600) · [Buy Me a Coffee](https://buymeacoffee.com/Shu2600)
