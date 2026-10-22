@@ -632,8 +632,15 @@ def build(keys):
             for ep in emus.findall("EmulatorPlatform"):
                 if ep.findtext("Emulator") == sid and ep.findtext("Platform") == name:
                     ep.find("Default").text = "false"
-        kept = carry_over(root, os.path.join(DATA, "Platforms", f"{name}.xml"))
-        write_xml(root, os.path.join(DATA, "Platforms", f"{name}.xml"))
+        target = os.path.join(DATA, "Platforms", f"{name}.xml")
+        if n == 0 and os.path.exists(target) and load(target).find("Game") is not None:
+            # No game files found but LaunchBox already lists games: most likely the ROM folder or drive is missing
+            # right now. Keep the existing list rather than replacing it with an empty one.
+            print(f"{name}: no game files found in {', '.join(folders) or 'its folders'} - kept the existing game list "
+                  "untouched (is the drive connected?)")
+            continue
+        kept = carry_over(root, target)
+        write_xml(root, target)
         print(f"{name}: {n} games, {hit} matched to the LaunchBox database, {kept} player fields kept")
     write_xml(emus, os.path.join(DATA, "Emulators.xml"))
     write_xml(plats, os.path.join(DATA, "Platforms.xml"))

@@ -6,6 +6,8 @@ Turn your own game collection into a finished LaunchBox library for a big 4K TV:
 
 **No games, BIOS or firmware are included, downloaded or linked. You bring your own.** See [DISCLAIMER.md](DISCLAIMER.md).
 
+**Version 1.1** (22 October 2026). What's changed: [CHANGELOG.md](CHANGELOG.md)
+
 ## Quick start
 
 1. Download this repo (green Code button, Download ZIP) and unzip it anywhere.
@@ -34,7 +36,7 @@ Prefer the command line? [docs/GUIDE.md](docs/GUIDE.md) has every step.
 - Picks the cleanest copy of each game: verified dumps first; betas, bad dumps, hacks and trainers last; English releases before others. Demos, test carts and BIOS files are left out.
 - Matches names that differ only in style (`Gauntlet 4` / `Gauntlet IV`, `Auto Duel` / `Autoduel`).
 - Arcade: parent sets only. Splits 32X out of Mega Drive sets, adds Game & Watch and laserdisc games.
-- Safe to re-run: favourites, play history, ratings and manual links carry over.
+- Safe to re-run: favourites, play history, ratings and manual links carry over. If a system's game folder can't be found (say a drive isn't plugged in), its existing game list is left alone instead of being emptied, and your LaunchBox Data folder is backed up before every build.
 
 **Fills the artwork** (only where something is missing; never overwrites yours)
 

@@ -52,3 +52,4 @@ if dangling:
     problems.append(f"{dangling} playlist entries point at games that no longer exist")
 print(f"{games} games, {len(plat_names)} platforms, {len(emus)} emulators checked")
 print("\n".join(problems[:50]) if problems else "no problems found")
+_sys.exit(1 if problems else 0)   # so the wizard and scripts can tell a clean library from a broken one

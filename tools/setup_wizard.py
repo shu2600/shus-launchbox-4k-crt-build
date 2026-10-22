@@ -17,7 +17,8 @@ ASSETS = next((d for d in (os.path.join(os.path.dirname(HERE), "assets"),
               os.path.join(os.path.dirname(HERE), "assets"))
 
 NAME = "Shu's LaunchBox 4K CRT Build"
-TITLE = NAME + " - Setup"
+VERSION = "1.1"   # bump on every change and add a line to CHANGELOG.md
+TITLE = NAME + " - Setup  (v" + VERSION + ")"
 BG, PANEL, FG, MUTED, ACCENT, OK, BAD = "#14161a", "#1d2026", "#e9e6df", "#9a9a94", "#d9a441", "#7fbf6a", "#d0675b"
 
 
@@ -990,6 +991,7 @@ class Wizard(tk.Tk):
         threading.Thread(target=self.worker, args=(steps,), daemon=True).start()
 
     def worker(self, steps):
+        failed = []   # (step label, reason) for every step that did not finish cleanly
         for n, (label, cmd) in enumerate(steps, 1):
             if self.cancelled:
                 break
@@ -1016,13 +1018,25 @@ class Wizard(tk.Tk):
                     self.call(cmd)
             except Exception as e:
                 self.log(f"   step failed: {e}")
+                failed.append((label, str(e)))
+                if cmd and isinstance(cmd, list) and cmd[0] == "lb_build.py":
+                    # Everything after this works on the library it builds, so carrying on would only stack errors.
+                    self.log("   The library build failed, so the remaining steps were skipped. Your previous LaunchBox"
+                             " data is backed up in the logs folder (lb_data_backup_<date>).")
+                    break
             self.q.put(("p", 100 * n / len(steps)))
         if self.cancelled:
             self.log("\nCancelled. Steps already finished are kept, and the build is safe to run again.")
             self.after(0, lambda: (self.start.state(["!disabled"]), self.cancel_btn.state(["disabled"])))
             return
-        self.after(0, lambda: self.cancel_btn.state(["disabled"]))
-        self.log("\nAll done. Open LaunchBox.")
+        self.after(0, lambda: (self.start.state(["!disabled"]), self.cancel_btn.state(["disabled"])))
+        if failed:
+            self.log(f"\nFinished with {len(failed)} problem(s):")
+            for label, why in failed:
+                self.log(f"   - {label}: {why}")
+            self.log("Fix those and run the build again; finished steps are kept.")
+        else:
+            self.log("\nAll done. Open LaunchBox.")
 
     def call(self, cmd):
         p = subprocess.Popen([PY, "-I", os.path.join(HERE, cmd[0])] + cmd[1:], cwd=HERE, stdout=subprocess.PIPE,
@@ -1031,7 +1045,9 @@ class Wizard(tk.Tk):
         self.proc = p
         for line in p.stdout:
             self.log("   " + line.rstrip())
-        p.wait(); self.proc = None
+        code = p.wait(); self.proc = None
+        if code != 0 and not self.cancelled:
+            raise RuntimeError(f"{cmd[0]} stopped with an error (exit code {code})")
 
     def cancel(self):
         """Stop the running step (and anything it started) and skip the rest."""
