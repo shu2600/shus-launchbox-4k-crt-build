@@ -2,11 +2,11 @@
 
 ![The same Atari 2600 frame, raw and on a 1970s HMV TV](assets/before_after.jpg)
 
-Turn your own game collection into a finished LaunchBox library for a big 4K TV: every system in its own era TV or monitor, real arcade cabinets around MAME games, a CRT look tuned per machine, and covers, screenshots and manuals filled in from free, open sources.
+I wanted my retro collection to look right on a big 4K TV, with every system on the kind of telly or monitor it was played on back in the day. This is what I built to do it, and it'll do the same with your games: arcade cabinets around the MAME stuff, a CRT look tuned for each machine, and covers, screenshots and manuals filled in from free sources.
 
 **No games, BIOS or firmware are included, downloaded or linked. You bring your own.** See [DISCLAIMER.md](DISCLAIMER.md).
 
-**Version 1.1** (22 October 2026). What's changed: [CHANGELOG.md](CHANGELOG.md)
+**Version 1.1.1** (23 October 2026). What's changed: [CHANGELOG.md](CHANGELOG.md)
 
 ## Quick start
 
@@ -58,6 +58,10 @@ Prefer the command line? [docs/GUIDE.md](docs/GUIDE.md) has every step.
 **60 fps and widescreen** (in `configs/emulators`)
 - Per-game settings that switch on the emulators' own community patches: PS2 (PCSX2), PS3 (RPCS3), Xbox 360 (Xenia Canary), GameCube (Dolphin). See the readme in that folder.
 
+## How it's made
+
+I built this with Anima, my own AI setup. It's a hive mind of AI agents that all share one brain, a memory that I've been building for months. Anima writes and tests the code with me, and it can call a council of other AIs (ChatGPT, Gemini, Grok, DeepSeek and more) to pick holes in the work. ChatGPT's review is where the v1.1 fixes came from. I steer it, check what it does, and run everything on my own setup first, which is 15,000+ games across 33 systems, so it gets a proper workout. There's a lot more Anima can do, and I'll be showing more of it soon.
+
 ## Legal
 
 - Your games and BIOS are yours to supply. Nothing here helps you obtain them.
@@ -71,4 +75,4 @@ Full text: [DISCLAIMER.md](DISCLAIMER.md). Credits: [CREDITS.md](CREDITS.md). Co
 
 Built by Shu and Anima. Everything for a Reason.
 
-Like it? [Support Me On Patreon](https://www.patreon.com/cw/Shu2600) · [Buy Me a Coffee](https://buymeacoffee.com/Shu2600)
+Like it? [Support me on Patreon](https://www.patreon.com/cw/Shu2600) · [Buy me a coffee](https://buymeacoffee.com/Shu2600)

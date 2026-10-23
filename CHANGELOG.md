@@ -1,5 +1,9 @@
 # What's Changed
 
+## 1.1.1 (23 October 2026)
+
+- Rewrote the README in my own words, and added a bit on how it's made: Anima, my own AI setup, and its council of other AIs that review the work.
+
 ## 1.1 (22 October 2026)
 
 I had the code properly reviewed and it turned up a couple of things I wasn't happy with, so these are sorted:
