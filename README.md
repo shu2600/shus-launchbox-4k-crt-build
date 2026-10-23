@@ -2,11 +2,11 @@
 
 ![The same Atari 2600 frame, raw and on a 1970s HMV TV](assets/before_after.jpg)
 
-I wanted my retro collection to look right on a big 4K TV, with every system on the kind of telly or monitor it was played on back in the day. This is what I built to do it, and it'll do the same with your games: arcade cabinets around the MAME stuff, a CRT look tuned for each machine, and covers, screenshots and manuals filled in from free sources.
+I wanted my retro collection looking right on the big 4K TV, every system on the kind of telly or monitor it was played on back in the day... this is what I built to do it, and it'll do the same with your games, arcade cabinets round the MAME stuff, a CRT look tuned for each machine, and covers, screenshots and manuals filled in from free sources.
 
 **No games, BIOS or firmware are included, downloaded or linked. You bring your own.** See [DISCLAIMER.md](DISCLAIMER.md).
 
-**Version 1.2** (23 October 2026). What's changed: [CHANGELOG.md](CHANGELOG.md)
+**Version 1.2.1** (23 October 2026). What's changed: [CHANGELOG.md](CHANGELOG.md)
 
 ## Quick start
 
@@ -61,7 +61,7 @@ Prefer the command line? [docs/GUIDE.md](docs/GUIDE.md) has every step.
 
 ## How it's made
 
-I built this with Anima, my own AI setup. It's a hive mind of AI agents that all share one brain, a memory that I've been building for months. Anima writes and tests the code with me, and it can call a council of other AIs (ChatGPT, Gemini, Grok, DeepSeek and more) to pick holes in the work. ChatGPT's review is where the v1.1 fixes came from. I steer it, check what it does, and run everything on my own setup first, which is 15,000+ games across 33 systems, so it gets a proper workout. There's a lot more Anima can do, and I'll be showing more of it soon.
+I built this with Anima, my own AI setup. It's a hive mind of AI agents that all share one brain, a memory I've been building for months. Anima writes and tests the code with me and can call a council of other AIs (ChatGPT, Gemini, Grok, DeepSeek and more) to pick holes in it, ChatGPT's review is where the v1.1 fixes came from. I steer it, check what it does and run it all on my own setup first, 15,000+ games across 33 systems, so it gets a proper workout... there's a lot more Anima can do, more on that soon.
 
 ## Legal
 
