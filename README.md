@@ -6,7 +6,7 @@ I wanted my retro collection to look right on a big 4K TV, with every system on 
 
 **No games, BIOS or firmware are included, downloaded or linked. You bring your own.** See [DISCLAIMER.md](DISCLAIMER.md).
 
-**Version 1.1.1** (23 October 2026). What's changed: [CHANGELOG.md](CHANGELOG.md)
+**Version 1.2** (23 October 2026). What's changed: [CHANGELOG.md](CHANGELOG.md)
 
 ## Quick start
 
@@ -47,6 +47,7 @@ Prefer the command line? [docs/GUIDE.md](docs/GUIDE.md) has every step.
 | `libretro_thumbs.py` | libretro-thumbnails | covers by name |
 | `arcadedb_art.py` | ArcadeDB | arcade flyers, screenshots, marquees |
 | `zxdb_inlays.py` | ZXDB / Spectrum Computing | Spectrum inlays, loading screens, in-game screens |
+| `art_fill.py` | LaunchBox's image server | the gaps: looser name matching, flyers as arcade covers, title screens as screenshots |
 | `make_3dbox.py` | your covers | 3D boxes |
 | `lb_playlists.py`, `menu_icons.py`, `fav_mark.py` | your library | best-of and themed playlists, menu icons, favourites |
 

@@ -18,6 +18,7 @@ for f in os.listdir(os.path.join(DATA, "Platforms")):
             "path": g.findtext("ApplicationPath") or "", "dbid": g.findtext("DatabaseID") or "",
             "genre": (g.findtext("Genre") or "").lower(), "rating": float(g.findtext("CommunityStarRating") or 0),
             "votes": int(g.findtext("CommunityStarRatingTotalVotes") or 0),
+            "fav": (g.findtext("Favorite") or "").lower() == "true",
         })
 
 
@@ -47,12 +48,62 @@ def write(name, items, category):
     print(f"{name}: {len(items)}")
 
 
+def favs_first(pool, n):
+    """Your favourites (LaunchBox's Favorite tick) at the top, then the best-rated games, one entry per title,
+    so the same game under two set names (Pac-Man / Puckman) only shows once. Favourites always make the list."""
+    ranked = sorted([g for g in pool if g["fav"]], key=score, reverse=True) + \
+             sorted([g for g in pool if not g["fav"] and g["votes"] >= 5], key=score, reverse=True)
+    out, seen = [], set()
+    for g in ranked:
+        key = g["title"].lower()
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(g)
+    favs = sum(1 for g in out if g["fav"])
+    return out[:max(n, favs)]
+
+
 rated = [g for g in games if g["votes"] >= 5]
-# 1. Best of each system (top 50, needs 5+ votes)
-for plat in sorted({g["platform"] for g in rated}):
-    top = sorted([g for g in rated if g["platform"] == plat], key=score, reverse=True)[:50]
+# 1. Best of each system (top 50, needs 5+ votes; your favourites from that system always at the top)
+for plat in sorted({g["platform"] for g in rated} | {g["platform"] for g in games if g["fav"]}):
+    top = favs_first([g for g in games if g["platform"] == plat], 50)
     if len(top) >= 10:
         write(f"Best of {plat}", top, "Best of Each System")
+
+def _norm(t):
+    t = re.sub(r"\(.*?\)|\[.*?\]", "", t.lower().replace("&", "and"))
+    t = re.sub(r",\s*the$", "", t.strip())
+    return re.sub(r"[^a-z0-9]", "", re.sub(r"^the\s+", "", t))
+
+
+def curated(plat):
+    """top_lists/<Platform>.txt: a researched top list, one title per line (# = comment), best first."""
+    p = os.path.join(os.path.dirname(os.path.abspath(__file__)), "top_lists", f"{plat}.txt")
+    if not os.path.exists(p):
+        return []
+    return [l.strip() for l in open(p, encoding="utf-8") if l.strip() and not l.startswith("#")]
+
+
+# 1b. Top 100 <system>: your favourites first, then the researched top list in its order (top_lists/), then the
+#     best-rated games to fill up to 100. Arcade always gets one; other systems once they have a top list.
+for plat in sorted({g["platform"] for g in games}):
+    pool = [g for g in games if g["platform"] == plat]
+    wanted = curated(plat)
+    if plat != "Arcade" and not wanted:
+        continue
+    by_title = {}
+    for g in sorted(pool, key=score, reverse=True):
+        by_title.setdefault(_norm(g["title"]), g)
+    picks = [by_title[_norm(t)] for t in wanted if _norm(t) in by_title]
+    favs = [g for g in favs_first(pool, 0) if g["fav"]]
+    out, seen = [], set()
+    for g in favs + picks + favs_first(pool, 100):
+        k = _norm(g["title"])
+        if k not in seen:
+            seen.add(k)
+            out.append(g)
+    write(f"Top 100 {plat}", out[:max(100, len(favs))], "Best of Each System")
 
 # 2. All-time top 100 across everything
 write("Top 100 of All Time", sorted([g for g in rated if g["votes"] >= 20], key=score, reverse=True)[:100], "Collections")

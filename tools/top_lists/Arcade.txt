@@ -1,0 +1,104 @@
+# Top arcade games. Source: International Arcade Museum / KLOV "Top Coin-Operated Videogames of All Time"
+# (arcade-museum.com/top100, read 23/10/2026): Top 100 list plus its Most Popular and Most Collected lists.
+# Your LaunchBox favourites always go first; these follow in this order. One title per line; # = comment.
+Pac-Man
+Galaga
+Donkey Kong
+Star Wars
+Ms. Pac-Man
+Dig Dug
+Asteroids
+Defender
+Tron
+Tempest
+Centipede
+Joust
+Robotron: 2084
+Pengo
+Q*bert
+Computer Space
+Pong
+Tank
+Biplane
+Death Race
+Sea Wolf
+Space Invaders
+Galaxian
+Lunar Lander
+Asteroids Deluxe
+Battlezone
+Berzerk
+Eagle
+Missile Command
+Phoenix
+Rally-X
+Star Castle
+Warlords
+Wizard of Wor
+Frogger
+Gorf
+Mouse Trap
+Qix
+Stargate
+Vanguard
+Black Widow
+BurgerTime
+Donkey Kong Jr.
+Jungle King
+Moon Patrol
+Pole Position
+Space Duel
+Time Pilot
+Xevious
+Zaxxon
+Dragon's Lair
+Elevator Action
+Gyruss
+Major Havoc
+Spy Hunter
+Tapper
+Track & Field
+Punch-Out!!
+Choplifter
+Gauntlet
+Ghosts'n Goblins
+Indiana Jones and the Temple of Doom
+Arkanoid
+Out Run
+Rampage
+1943: The Battle of Midway
+Double Dragon
+Rastan
+RoadBlasters
+Street Fighter
+Bad Dudes Vs. Dragonninja
+Cyberball
+Ghouls'n Ghosts
+Tetris
+Golden Axe
+Golden Tee Golf
+Raiden
+Rampart
+Smash T.V.
+Captain America and The Avengers
+King of the Monsters
+Terminator 2: Judgment Day
+X-Men
+Lethal Enforcers
+Mortal Kombat
+NBA Jam
+Daytona USA
+Area 51
+Soul Edge
+San Francisco Rush
+The House of the Dead
+NFL Blitz
+Gauntlet Legends
+The House of the Dead 2
+Time Crisis II
+CarnEvil
+Ferrari F355 Challenge
+Hydro Thunder
+18 Wheeler: American Pro Trucker
+Gauntlet Dark Legacy
+Ridge Racer V

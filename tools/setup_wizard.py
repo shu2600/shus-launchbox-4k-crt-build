@@ -17,7 +17,7 @@ ASSETS = next((d for d in (os.path.join(os.path.dirname(HERE), "assets"),
               os.path.join(os.path.dirname(HERE), "assets"))
 
 NAME = "Shu's LaunchBox 4K CRT Build"
-VERSION = "1.1.1"   # bump on every change and add a line to CHANGELOG.md
+VERSION = "1.2"   # bump on every change and add a line to CHANGELOG.md
 TITLE = NAME + " - Setup  (v" + VERSION + ")"
 BG, PANEL, FG, MUTED, ACCENT, OK, BAD = "#14161a", "#1d2026", "#e9e6df", "#9a9a94", "#d9a441", "#7fbf6a", "#d0675b"
 
@@ -982,9 +982,12 @@ class Wizard(tk.Tk):
                 steps.append(("Arcade art (ArcadeDB)", ["arcadedb_art.py"]))
             if shutil.which("gh"):
                 steps.append(("Covers by name (libretro)", ["libretro_thumbs.py"] + names))
-            steps += [("3D boxes", ("3d", names)), ("Playlists", ["lb_playlists.py"]), ("Menu icons", ["menu_icons.py"])]
+            steps.append(("Fill the art gaps", ["art_fill.py", "--apply"] + names))
+            steps.append(("3D boxes", ("3d", names)))
+            # favourites are ticked before the playlists, which put them at the top
             if self.s.get("favourites"):
                 steps.append(("Favourites", ["fav_mark.py"]))
+            steps += [("Playlists", ["lb_playlists.py"]), ("Menu icons", ["menu_icons.py"])]
         if level == "Ultimate" and os.path.exists(os.path.join(P(self.s, "work_dir"), "zxdb", "ZXDB_mysql.sql")):
             steps += [(f"ZX Spectrum {k}", ["zxdb_inlays.py", "--kind", k]) for k in ("front", "loading", "running")]
         steps.append(("Check everything", ["lb_validate.py"]))
