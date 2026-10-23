@@ -6,7 +6,7 @@ I wanted my retro collection looking right on the big 4K TV, every system on the
 
 **No games, BIOS or firmware are included, downloaded or linked. You bring your own.** See [DISCLAIMER.md](DISCLAIMER.md).
 
-**Version 1.2.2** (23 October 2026). What's changed: [CHANGELOG.md](CHANGELOG.md)
+**Version 1.3** (23 October 2026). What's changed: [CHANGELOG.md](CHANGELOG.md)
 
 ## Quick start
 

@@ -17,7 +17,7 @@ ASSETS = next((d for d in (os.path.join(os.path.dirname(HERE), "assets"),
               os.path.join(os.path.dirname(HERE), "assets"))
 
 NAME = "Shu's LaunchBox 4K CRT Build"
-VERSION = "1.2.2"   # bump on every change and add a line to CHANGELOG.md
+VERSION = "1.3"   # bump on every change and add a line to CHANGELOG.md
 TITLE = NAME + " - Setup  (v" + VERSION + ")"
 BG, PANEL, FG, MUTED, ACCENT, OK, BAD = "#14161a", "#1d2026", "#e9e6df", "#9a9a94", "#d9a441", "#7fbf6a", "#d0675b"
 
@@ -92,7 +92,7 @@ PARTS = [  # (name, why, link, check(settings) -> bool, required)
     ("Cemu", "Wii U.", "https://cemu.info/", lambda s: find_exe(s, "Cemu.exe"), False),
     ("Hypseus Singe", "Laserdisc games (Dragon's Lair, Space Ace) - you supply the video.", "https://github.com/DirtBagXon/hypseus-singe/releases",
      lambda s: find_exe(s, "hypseus.exe"), False),
-    ("Python add-ons", "Pillow and numpy: run  py -m pip install pillow numpy", "https://pypi.org/project/pillow/",
+    ("Python add-ons", "Pillow, NumPy and PyYAML: setup.bat installs them, or run  py -m pip install -r requirements.txt", "https://pypi.org/project/pillow/",
      lambda s: have_module("PIL") and have_module("numpy"), True),
     ("GitHub CLI", "Used to list libretro cover art. Install, then run  gh auth login  once.", "https://cli.github.com/",
      lambda s: bool(shutil.which("gh")), False),
@@ -107,6 +107,37 @@ DOWNLOADS = {
     "TheNamec Commodore pack": ("https://github.com/TheNamec/megabezel-commodore-pack/archive/refs/heads/main.zip",
                                 "Mega_Bezel_Packs", "thenamec-commodore-pack", "about 330 MB, TheNamec's GitHub"),
 }
+# how each download is checked before anything is unpacked. Duimon's is a fixed release, so it has to match
+# byte for byte. libretro's zip and TheNamec's main branch change as they update them, so a fixed checksum
+# would break; those are checked for damage and for the folder that has to be inside.
+CHECKS = {
+    "Mega Bezel shader": ("contains", "bezel/Mega_Bezel/"),
+    "Duimon Mega Bezel packs": ("sha256", "b6025947f5acdd251edc1860702755daf6af38a60743244db7698b8a4aecc46b"),
+    "TheNamec Commodore pack": ("contains", "/presets/"),
+}
+
+
+def check_pack(part, path):
+    """None if the download is fine, else what's wrong with it."""
+    import hashlib, zipfile
+    kind, want = CHECKS.get(part, ("", ""))
+    if kind == "sha256":
+        h = hashlib.sha256()
+        with open(path, "rb") as f:
+            for b in iter(lambda: f.read(1 << 20), b""):
+                h.update(b)
+        if h.hexdigest() != want:
+            return "it isn't the file it should be (checksum doesn't match the release)"
+    try:
+        with zipfile.ZipFile(path) as z:
+            bad = z.testzip()
+            if bad:
+                return f"the zip is damaged ({bad})"
+            if kind == "contains" and not any(want in n for n in z.namelist()):
+                return f"it doesn't have the {want.strip('/')} folder it should have"
+    except zipfile.BadZipFile:
+        return "it isn't a zip file"
+    return None
 
 
 def fetch_pack(s, part, log, progress, stop):
@@ -129,6 +160,11 @@ def fetch_pack(s, part, log, progress, stop):
                 break
             f.write(b); got += len(b)
             progress(f"{part}: {got >> 20} MB" + (f" of {total >> 20} MB" if total else ""))
+    log(f"{part}: checking the download")
+    problem = check_pack(part, tmp)
+    if problem:
+        log(f"{part}: not installed, {problem}. Try again, or download it yourself from the link.")
+        os.remove(tmp); return False
     log(f"{part}: unpacking into {dest}")
     os.makedirs(dest, exist_ok=True)
     root = os.path.realpath(dest)

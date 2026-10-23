@@ -1,5 +1,15 @@
 # What's Changed
 
+## 1.3 (23 October 2026)
+
+The rest of ChatGPT's review, all sorted:
+
+- The look previews only close the RetroArch they opened now, they used to close every RetroArch on the PC if one hung, including one you were playing.
+- The Dreamcast tester just tells you which discs won't boot now (logs\dc_test\broken.txt), it used to move them out of your folder. Add --move if you want them moved, and .gdi games never get moved cos their track files would get split up.
+- PS2 only looks in Roms\PS 2 by default, it used to look in Roms\PS 3 as well (that was my own setup, one of my PS2 games was in the wrong folder...) so PS3 discs could turn up as PS2 games. Got a PS2 game somewhere else? Press Change next to PS2 in the wizard.
+- The shader and TV pack downloads get checked before anything's unpacked. Duimon's pack has to match the release byte for byte, and libretro's and TheNamec's (they update those all the time so they can't have a fixed checksum) get checked for damage and for the folder that should be inside. Anything wrong and it's not installed, it tells you why.
+- The Python add-ons are pinned now (requirements.txt), so a big new Pillow or NumPy release can't break the wizard out of nowhere.
+- Tests run on GitHub every time I change anything (tests\test_tools.py), they don't need LaunchBox or any games.
 ## 1.2.2 (23 October 2026)
 
 - Added a line about me to the README, I'm an old school web developer and coder and this is how I build now.

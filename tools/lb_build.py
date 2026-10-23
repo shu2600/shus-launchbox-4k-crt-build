@@ -59,7 +59,7 @@ PLATFORMS = {
     "neogeo": ("SNK Neo Geo AES", "Consoles", ["NeoGeo"], [".zip"], "RetroArch", "fbneo"),
     "arcade": ("Arcade", "Arcade", [r"Arcade\MAME 0.261 ROMs (non-merged)", r"Roms\Arcade"], [".zip"], "MAME", None),
     "gnw": ("Nintendo Game & Watch", "Handhelds", [r"Arcade\MAME 0.261 ROMs (non-merged)"], [".zip"], "MAME", None),
-    "ps2": ("Sony Playstation 2", "Consoles", [r"Roms\PS 2", r"Roms\PS 3"], [".iso", ".chd", ".cso"], "PCSX2", None),
+    "ps2": ("Sony Playstation 2", "Consoles", [r"Roms\PS 2"], [".iso", ".chd", ".cso"], "PCSX2", None),
     "ngp": ("SNK Neo Geo Pocket Color", "Handhelds", [r"Roms\Neo Pocket"], [".zip"], "RetroArch", "mednafen_ngp"),
     "3ds": ("Nintendo 3DS", "Handhelds", ["Nintendo 3DS"], [".3ds", ".cci", ".cia"], "RetroArch", "citra"),
     "wiiu": ("Nintendo Wii U", "Consoles", ["Wii U"], [".rpx", ".wud", ".wux", ".wua"], "Cemu", None),

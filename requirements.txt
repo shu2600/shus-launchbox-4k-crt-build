@@ -1,0 +1,4 @@
+# what the tools need, tested with Pillow 12.1.1, NumPy 2.4.6, PyYAML 6.0.3 on Python 3.12
+pillow>=12.1,<13
+numpy>=2.4,<3
+pyyaml>=6.0,<7

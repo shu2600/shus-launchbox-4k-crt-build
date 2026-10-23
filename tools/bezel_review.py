@@ -161,10 +161,13 @@ def run(args, timeout=240):
         si = subprocess.STARTUPINFO()
         si.dwFlags |= subprocess.STARTF_USESHOWWINDOW
         si.wShowWindow = 4          # SW_SHOWNOACTIVATE: draw the window but never take focus from whatever you're doing
-        subprocess.run([os.path.join(RA, "retroarch.exe")] + args, cwd=RA, timeout=timeout, startupinfo=si,
-                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        p = subprocess.Popen([os.path.join(RA, "retroarch.exe")] + args, cwd=RA, startupinfo=si,
+                             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        p.wait(timeout=timeout)
     except subprocess.TimeoutExpired:
-        subprocess.run(["taskkill", "/IM", "retroarch.exe", "/F"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        # only the RetroArch this preview started, never one you've got open yourself
+        subprocess.run(["taskkill", "/PID", str(p.pid), "/T", "/F"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        p.wait()
     return time.time() - t
 
 

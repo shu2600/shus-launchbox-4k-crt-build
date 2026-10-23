@@ -26,7 +26,7 @@ rem a fresh install isn't on this window's PATH yet
 set "PATH=%PYL%;%PATH%"
 
 :havepy
-py -c "import PIL, numpy, yaml" 2>nul || py -m pip install --user pillow numpy pyyaml
+py -c "import PIL, numpy, yaml" 2>nul || py -m pip install --user -r requirements.txt
 py -c "import PIL, numpy, yaml" 2>nul || goto pipfail
 start "" pyw tools\setup_wizard.py
 exit /b
