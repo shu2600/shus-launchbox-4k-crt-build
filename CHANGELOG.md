@@ -1,5 +1,9 @@
 # What's Changed
 
+## 1.2.2 (23 October 2026)
+
+- Added a line about me to the README, I'm an old school web developer and coder and this is how I build now.
+
 ## 1.2.1 (23 October 2026)
 
 - Went back over the README and this changelog so they read more like me.

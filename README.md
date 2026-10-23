@@ -6,7 +6,7 @@ I wanted my retro collection looking right on the big 4K TV, every system on the
 
 **No games, BIOS or firmware are included, downloaded or linked. You bring your own.** See [DISCLAIMER.md](DISCLAIMER.md).
 
-**Version 1.2.1** (23 October 2026). What's changed: [CHANGELOG.md](CHANGELOG.md)
+**Version 1.2.2** (23 October 2026). What's changed: [CHANGELOG.md](CHANGELOG.md)
 
 ## Quick start
 
@@ -60,6 +60,8 @@ Prefer the command line? [docs/GUIDE.md](docs/GUIDE.md) has every step.
 - Per-game settings that switch on the emulators' own community patches: PS2 (PCSX2), PS3 (RPCS3), Xbox 360 (Xenia Canary), GameCube (Dolphin). See the readme in that folder.
 
 ## How it's made
+
+I'm an old school web developer and coder, and I love AI... this is me using it to build what I'd have built anyway, just a lot faster.
 
 I built this with Anima, my own AI setup. It's a hive mind of AI agents that all share one brain, a memory I've been building for months. Anima writes and tests the code with me and can call a council of other AIs (ChatGPT, Gemini, Grok, DeepSeek and more) to pick holes in it, ChatGPT's review is where the v1.1 fixes came from. I steer it, check what it does and run it all on my own setup first, 15,000+ games across 33 systems, so it gets a proper workout... there's a lot more Anima can do, more on that soon.
 
